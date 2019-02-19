@@ -1,0 +1,28 @@
+---
+openshift_cluster_content:
+- object: app-builds
+  content:
+  - name: hello-world-app-build
+    template: "{{ playbook_dir }}/openshift-templates/build.yml"
+    params: "{{ playbook_dir }}/params/build"
+    namespace: "{{ ci_cd_namespace }}"
+    tags:
+    - build
+- object: dev-stage
+  content:
+  - name: hello-world-app-dev-deploy
+    template: "{{ playbook_dir }}/openshift-templates/deployment.yml"
+    params: "{{ playbook_dir }}/params/dev"
+    namespace: "{{ dev_namespace }}"
+    tags:
+    - dev
+    - dev-deploy
+- object: demo-stage
+  content:
+  - name: hello-world-app-demo-deploy
+    template: "{{ playbook_dir }}/openshift-templates/deployment.yml"
+    params: "{{ playbook_dir }}/params/demo"
+    namespace: "{{ demo_namespace }}"
+    tags:
+    - demo
+    - demo-deploy
