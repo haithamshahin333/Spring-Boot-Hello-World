@@ -5,7 +5,7 @@
 **/
 node (''){
     env.DEV_PROJECT = env.OPENSHIFT_BUILD_NAMESPACE.replace('ci-cd','dev')
-    //env.DEMO_PROJECT = env.OPENSHIFT_BUILD_NAMESPACE.replace('ci-cd','demo')
+    env.DEMO_PROJECT = env.OPENSHIFT_BUILD_NAMESPACE.replace('ci-cd','test')
 
     env.CI_CD_PROJECT = env.OPENSHIFT_BUILD_NAMESPACE
 
@@ -87,7 +87,7 @@ node('jenkins-slave-mvn') {
     openshiftVerifyDeployment (apiURL: "${env.OCP_API_SERVER}", authToken: "${env.OCP_TOKEN}", depCfg: "${env.APP_NAME}", namespace: "${env.DEV_PROJECT}", verifyReplicaCount: true)
   }
 
-/*
+
   stage ('Deploy to Demo') {
     input "Promote Application to Demo?"
 
@@ -95,5 +95,5 @@ node('jenkins-slave-mvn') {
 
     openshiftVerifyDeployment (apiURL: "${env.OCP_API_SERVER}", authToken: "${env.OCP_TOKEN}", depCfg: "${env.APP_NAME}", namespace: "${env.DEMO_PROJECT}", verifyReplicaCount: true)
   }
-*/
+
 }
