@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent {label 'jenkins-slave-mvn'}
 
     stages {
         stage('Build') {
