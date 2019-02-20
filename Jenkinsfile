@@ -6,6 +6,7 @@ pipeline {
             steps {
                 echo 'printing env'
                 sh 'printenv'
+                sh 'sleep 300'
                 echo 'Building..'
             }
         }
