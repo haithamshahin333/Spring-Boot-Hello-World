@@ -6,6 +6,7 @@ pipeline {
             steps {
                 echo 'Building'
                 sh 'mvn compile'
+                sh 'sleep 300'
             }
         }
         stage('Unit Testing') {
