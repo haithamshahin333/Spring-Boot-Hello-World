@@ -4,11 +4,16 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'printing env'
-                sh 'printenv'
-                echo 'Building..'
+                echo 'Building'
+                sh 'mvn compile'
             }
         }
+        stage('Unit Testing') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+
         stage('Test') {
             steps {
                 echo 'Testing..'
