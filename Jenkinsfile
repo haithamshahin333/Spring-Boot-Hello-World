@@ -14,7 +14,7 @@ openshift.withCluster() {
   env.BUILD = "${env.NAMESPACE}"
   env.DEV = env.BUILD.replace('ci-cd', 'dev')
   env.TEST = env.BUILD.replace('ci-cd', 'test')
-  env.MVN_SNAPSHOT_DEPLOYMENT_REPOSITORY = "nexus::default::http://nexus:8081/repository/labs-snapshots"
+  env.MVN_SNAPSHOT_DEPLOYMENT_REPOSITORY = "nexus::default::http://nexus:8081/repository/maven-snapshots"
   env.OCP_API_SERVER = "${env.OPENSHIFT_API_URL}"
   env.OCP_TOKEN = readFile('/var/run/secrets/kubernetes.io/serviceaccount/token').trim()
 
@@ -29,7 +29,7 @@ pipeline {
   // After Pipeline completes the Pod is killed so every run will have clean
   // workspace
   agent {
-    label 'maven'
+    label 'jenkins-slave-mvn'
   }
 
   // Pipeline Stages start here
@@ -45,6 +45,18 @@ pipeline {
         // sh 'git config --global http.sslVerify false'
         // git url: "${APPLICATION_SOURCE_REPO}"
         sh "echo 'already checked code out' "
+
+        script {
+        openshiftVerifyDeployment (
+        apiURL: "${env.OCP_API_SERVER}",
+        authToken: "${env.OCP_TOKEN}",
+        depCfg: 'nexus',
+        namespace: "${env.CI_CD_PROJECT}",
+        verifyReplicaCount: 'true',
+        waitTime: '3',
+        waitUnit: 'min'
+      )
+        }
       }
     }
 
