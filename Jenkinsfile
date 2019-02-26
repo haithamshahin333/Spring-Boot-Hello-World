@@ -81,7 +81,9 @@ pipeline {
     }
 
     stage ('Deploy to Nexus') {
-      sh "mvn -B clean deploy -DskipTests=true -DaltDeploymentRepository=${MVN_SNAPSHOT_DEPLOYMENT_REPOSITORY} -f ${POM_FILE}"
+      steps {
+          sh "mvn -B clean deploy -DskipTests=true -DaltDeploymentRepository=${MVN_SNAPSHOT_DEPLOYMENT_REPOSITORY} -f ${POM_FILE}"
+      }
     }
 
     // Build Container Image using the artifacts produced in previous stages
