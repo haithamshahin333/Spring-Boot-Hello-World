@@ -15,6 +15,8 @@ openshift.withCluster() {
   env.DEV = env.BUILD.replace('ci-cd', 'dev')
   env.TEST = env.BUILD.replace('ci-cd', 'test')
   env.MVN_SNAPSHOT_DEPLOYMENT_REPOSITORY = "nexus::default::http://nexus:8081/repository/labs-snapshots"
+  env.OCP_API_SERVER = "${env.OPENSHIFT_API_URL}"
+  env.OCP_TOKEN = readFile('/var/run/secrets/kubernetes.io/serviceaccount/token').trim()
 
   echo "Starting Pipeline for ${APP_NAME}..."
 
@@ -83,7 +85,16 @@ pipeline {
 
     stage ('Deploy to Nexus') {
       steps {
-          sh "mvn -B clean deploy -DskipTests=true -DaltDeploymentRepository=${MVN_SNAPSHOT_DEPLOYMENT_REPOSITORY} -f ${POM_FILE}"
+        openshiftVerifyDeployment (
+          apiURL: "${OCP_API_SERVER}",
+          authToken: "${OCP_TOKEN}",
+          depCfg: 'nexus',
+          namespace: "${NAMESPACE}",
+          verifyReplicaCount: true,
+          waitTime: '3',
+          waitUnit: 'min'
+        )
+        sh "mvn -B clean deploy -DskipTests=true -DaltDeploymentRepository=${MVN_SNAPSHOT_DEPLOYMENT_REPOSITORY} -f ${POM_FILE}"
       }
     }
 
