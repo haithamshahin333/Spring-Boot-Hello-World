@@ -73,7 +73,7 @@
 	<repositories>
 		<repository>
 			<id>maven-proxy</id>
-			<url>https://nexus-labs-ci-cd-phildemo.apps.s11.core.rht-labs.com/repository/maven-central/</url>
+			<url>https://nexus-puckboard-demo-ci-cd.apps.s11.core.rht-labs.com/repository/maven-central/</url>
 		</repository>
   	</repositories>
 

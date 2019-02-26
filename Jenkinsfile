@@ -14,6 +14,7 @@ openshift.withCluster() {
   env.BUILD = "${env.NAMESPACE}"
   env.DEV = env.BUILD.replace('ci-cd', 'dev')
   env.TEST = env.BUILD.replace('ci-cd', 'test')
+  env.MVN_SNAPSHOT_DEPLOYMENT_REPOSITORY = "nexus::default::http://nexus:8081/repository/maven-snapshots"
 
   echo "Starting Pipeline for ${APP_NAME}..."
 
@@ -77,6 +78,10 @@ pipeline {
             unitTestAlwaysLinkToLastBuild: false,
             unitTestAllowMissing: true)
         }
+    }
+
+    stage ('Deploy to Nexus') {
+      sh "mvn -B clean deploy -DskipTests=true -DaltDeploymentRepository=${MVN_SNAPSHOT_DEPLOYMENT_REPOSITORY} -f ${POM_FILE}"
     }
 
     // Build Container Image using the artifacts produced in previous stages
