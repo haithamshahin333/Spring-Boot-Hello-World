@@ -127,7 +127,13 @@ pipeline {
       steps {
         //sh 'sleep 200'
         // run zap scanner
-        sh "/zap/zap-baseline.py -d -m 5 -x zaprpt.xml -t http://hello-world-app-puckboard-demo-dev.apps.s11.core.rht-labs.com/"
+
+        sh '''
+          /zap/zap-baseline.py -r index.html -t http://hello-world-app-puckboard-demo-dev.apps.s11.core.rht-labs.com/ || return_code=$?
+          echo "exit value was  - " $return_code
+        '''
+
+        //sh "/zap/zap-baseline.py -d -m 5 -x zaprpt.xml -t http://hello-world-app-puckboard-demo-dev.apps.s11.core.rht-labs.com/"
 
         // publish report to jenkins
         publishHTML([
