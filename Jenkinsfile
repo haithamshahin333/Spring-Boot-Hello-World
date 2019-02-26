@@ -86,7 +86,8 @@ pipeline {
       steps {
         script {
             openshift.withCluster() {
-              openshift.withProject( "${DEV_PROJECT}" ){
+              echo "in here"
+              openshift.withProject( "${NAMESPACE}" ){
               def latestDeploymentVersion = openshift.selector('dc',"nexus").object().status.latestVersion
               def rc = openshift.selector('rc', "nexus-${latestDeploymentVersion}")
               rc.untilEach(1){
