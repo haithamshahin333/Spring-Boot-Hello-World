@@ -14,7 +14,7 @@ openshift.withCluster() {
   env.BUILD = "${env.NAMESPACE}"
   env.DEV = env.BUILD.replace('ci-cd', 'dev')
   env.TEST = env.BUILD.replace('ci-cd', 'test')
-  env.MVN_SNAPSHOT_DEPLOYMENT_REPOSITORY = "nexus::default::http://nexus:8081/repository/maven-snapshots"
+  env.MVN_SNAPSHOT_DEPLOYMENT_REPOSITORY = "nexus::default::http://nexus:8081/repository/labs-snapshots"
 
   echo "Starting Pipeline for ${APP_NAME}..."
 
@@ -43,6 +43,7 @@ pipeline {
         // sh 'git config --global http.sslVerify false'
         // git url: "${APPLICATION_SOURCE_REPO}"
         sh "echo 'already checked code out' "
+        sh "sleep 300"
       }
     }
 
