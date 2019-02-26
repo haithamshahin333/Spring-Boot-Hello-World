@@ -84,15 +84,16 @@ pipeline {
 
     stage ('Deploy to Nexus') {
       steps {
-        openshiftVerifyDeployment (
-          apiURL: "${OCP_API_SERVER}",
-          authToken: "${OCP_TOKEN}",
-          depCfg: 'nexus',
-          namespace: "${NAMESPACE}",
-          verifyReplicaCount: 'true',
-          waitTime: '3',
-          waitUnit: 'min'
-        )
+        openshift.withCluster() {
+            openshift.withProject( "${DEV_PROJECT}" ){
+            def latestDeploymentVersion = openshift.selector('dc',"nexus").object().status.latestVersion
+            def rc = openshift.selector('rc', "nexus-${latestDeploymentVersion}")
+            rc.untilEach(1){
+                def rcMap = it.object()
+                return (rcMap.status.replicas.equals(rcMap.status.readyReplicas))
+            }
+          }
+        }
         sh "mvn -B clean deploy -DskipTests=true -DaltDeploymentRepository=${MVN_SNAPSHOT_DEPLOYMENT_REPOSITORY} -f ${POM_FILE}"
       }
     }
