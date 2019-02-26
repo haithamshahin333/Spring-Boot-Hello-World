@@ -26,7 +26,7 @@ pipeline {
   // After Pipeline completes the Pod is killed so every run will have clean
   // workspace
   agent {
-    label 'maven'
+    label 'jenkins-slave-mvn'
   }
 
   // Pipeline Stages start here
@@ -121,7 +121,7 @@ pipeline {
 
     stage('Scan Web Application') {
     agent {
-      label 'zap'
+      label 'jenkins-slave-zap'
     } 
       steps {
         sh 'sleep 200'
