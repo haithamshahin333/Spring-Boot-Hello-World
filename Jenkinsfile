@@ -45,7 +45,6 @@ pipeline {
         // sh 'git config --global http.sslVerify false'
         // git url: "${APPLICATION_SOURCE_REPO}"
         sh "echo 'already checked code out' "
-        sh "sleep 300"
       }
     }
 
@@ -90,7 +89,7 @@ pipeline {
           authToken: "${OCP_TOKEN}",
           depCfg: 'nexus',
           namespace: "${NAMESPACE}",
-          verifyReplicaCount: true,
+          verifyReplicaCount: 'true',
           waitTime: '3',
           waitUnit: 'min'
         )
