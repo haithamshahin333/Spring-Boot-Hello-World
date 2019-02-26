@@ -1,4 +1,4 @@
 PIPELINE_SOURCE_REPOSITORY_URL=https://github.com/haithamshahin333/Spring-Boot-Hello-World.git
-PIPELINE_SOURCE_REPOSITORY_REF=master
+PIPELINE_SOURCE_REPOSITORY_REF=secure-pipeline
 NAME=hello-world-app
 S2I_BASE_IMAGE=redhat-openjdk18-openshift:1.2

@@ -1,2 +1,2 @@
 NAME=hello-world-app
-PIPELINES_NAMESPACE=labs-ci-cd-phildemo
+PIPELINES_NAMESPACE=puckboard-demo-ci-cd

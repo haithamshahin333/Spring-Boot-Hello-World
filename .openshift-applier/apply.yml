@@ -2,9 +2,9 @@
 - name: Deploy Spring Boot
   hosts: app
   vars:
-    ci_cd_namespace: labs-ci-cd-phildemo
-    dev_namespace: labs-dev-phildemo
-    demo_namespace: labs-test-phildemo
+    ci_cd_namespace: puckboard-demo-ci-cd
+    dev_namespace: puckboard-demo-dev
+    demo_namespace: puckboard-demo-test
   tasks:
     - include_role:
         name: openshift-applier/roles/openshift-applier
