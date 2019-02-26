@@ -84,13 +84,15 @@ pipeline {
 
     stage ('Deploy to Nexus') {
       steps {
-        openshift.withCluster() {
-            openshift.withProject( "${DEV_PROJECT}" ){
-            def latestDeploymentVersion = openshift.selector('dc',"nexus").object().status.latestVersion
-            def rc = openshift.selector('rc', "nexus-${latestDeploymentVersion}")
-            rc.untilEach(1){
-                def rcMap = it.object()
-                return (rcMap.status.replicas.equals(rcMap.status.readyReplicas))
+        script {
+            openshift.withCluster() {
+              openshift.withProject( "${DEV_PROJECT}" ){
+              def latestDeploymentVersion = openshift.selector('dc',"nexus").object().status.latestVersion
+              def rc = openshift.selector('rc', "nexus-${latestDeploymentVersion}")
+              rc.untilEach(1){
+                  def rcMap = it.object()
+                  return (rcMap.status.replicas.equals(rcMap.status.readyReplicas))
+              }
             }
           }
         }
