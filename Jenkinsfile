@@ -14,6 +14,7 @@ openshift.withCluster() {
   env.BUILD = "${env.NAMESPACE}"
   env.DEV = env.BUILD.replace('ci-cd', 'dev')
   env.TEST = env.BUILD.replace('ci-cd', 'test')
+  env.APP_DEV_HOST = 
 
   echo "Starting Pipeline for ${APP_NAME}..."
 
@@ -124,9 +125,9 @@ pipeline {
       label 'jenkins-slave-zap'
     } 
       steps {
-        sh 'sleep 200'
+        //sh 'sleep 200'
         // run zap scanner
-        sh "/zap/zap-baseline.py -d -m 5 -x zaprpt.xml -t ${env.APP_DEV_HOST}"
+        sh "/zap/zap-baseline.py -d -m 5 -x zaprpt.xml -t http://hello-world-app-puckboard-demo-dev.apps.s11.core.rht-labs.com/"
 
         // publish report to jenkins
         publishHTML([
