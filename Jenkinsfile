@@ -21,18 +21,25 @@ openshift.withCluster() {
 }
 
 pipeline {
+
   // Use Jenkins Maven slave
   // Jenkins will dynamically provision this as OpenShift Pod
   // All the stages and steps of this Pipeline will be executed on this Pod
   // After Pipeline completes the Pod is killed so every run will have clean
   // workspace
+
+  
   agent {
     label 'jenkins-slave-mvn'
   }
 
   // Pipeline Stages start here
   // Requeres at least one stage
+
+
   stages {
+
+    /*
 
     // Run Maven build, skipping tests
     stage('Build'){
@@ -119,6 +126,8 @@ pipeline {
         verifyDeployment(projectName: env.TEST, targetApp: env.APP_NAME)
       }
     }
+
+    */
 
     stage('Scan Web Application') {
     agent {
