@@ -65,7 +65,6 @@ node('jenkins-slave-mvn') {
     }
     stage('Build App') {
       // TODO - introduce a variable here
-      sh "sleep 300"
       sh "mvn ${env.MVN_COMMAND} -DaltDeploymentRepository=${MVN_SNAPSHOT_DEPLOYMENT_REPOSITORY}"
     }
 
