@@ -5,7 +5,7 @@
 **/
 node (''){
     env.DEV_PROJECT = env.OPENSHIFT_BUILD_NAMESPACE.replace('ci-cd','dev')
-    //env.DEMO_PROJECT = env.OPENSHIFT_BUILD_NAMESPACE.replace('ci-cd','demo')
+    env.DEMO_PROJECT = env.OPENSHIFT_BUILD_NAMESPACE.replace('ci-cd','test')
 
     env.CI_CD_PROJECT = env.OPENSHIFT_BUILD_NAMESPACE
 
@@ -46,10 +46,6 @@ node (''){
 **/
 node('jenkins-slave-mvn') {
 
-  stage('SCM Checkout') {
-    checkout scm
-  }
-
   dir ("${env.SOURCE_CONTEXT_DIR}") {
     stage('Wait for Nexus'){
       // verify nexus is up or the build will fail with a strange error
@@ -64,7 +60,6 @@ node('jenkins-slave-mvn') {
       )
     }
     stage('Build App') {
-      // TODO - introduce a variable here
       sh "mvn ${env.MVN_COMMAND} -DaltDeploymentRepository=${MVN_SNAPSHOT_DEPLOYMENT_REPOSITORY}"
     }
 
@@ -87,7 +82,6 @@ node('jenkins-slave-mvn') {
     openshiftVerifyDeployment (apiURL: "${env.OCP_API_SERVER}", authToken: "${env.OCP_TOKEN}", depCfg: "${env.APP_NAME}", namespace: "${env.DEV_PROJECT}", verifyReplicaCount: true)
   }
 
-/*
   stage ('Deploy to Demo') {
     input "Promote Application to Demo?"
 
@@ -95,5 +89,4 @@ node('jenkins-slave-mvn') {
 
     openshiftVerifyDeployment (apiURL: "${env.OCP_API_SERVER}", authToken: "${env.OCP_TOKEN}", depCfg: "${env.APP_NAME}", namespace: "${env.DEMO_PROJECT}", verifyReplicaCount: true)
   }
-*/
 }
