@@ -46,6 +46,10 @@ node (''){
 **/
 node('jenkins-slave-mvn') {
 
+  stage('SCM Checkout') {
+    checkout scm
+  }
+
   dir ("${env.SOURCE_CONTEXT_DIR}") {
     stage('Wait for Nexus'){
       // verify nexus is up or the build will fail with a strange error
