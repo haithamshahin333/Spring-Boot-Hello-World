@@ -5,7 +5,7 @@
 **/
 node (''){
     env.DEV_PROJECT = env.OPENSHIFT_BUILD_NAMESPACE.replace('ci-cd','dev')
-    env.DEMO_PROJECT = env.OPENSHIFT_BUILD_NAMESPACE.replace('ci-cd','test')
+    env.DEMO_PROJECT = env.OPENSHIFT_BUILD_NAMESPACE.replace('ci-cd','demo')
 
     env.CI_CD_PROJECT = env.OPENSHIFT_BUILD_NAMESPACE
 
